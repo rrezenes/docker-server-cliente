@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  web:
+   image: nginx:latest
+   container_name: nginx
+   ports:
+   - "8080:80"
+   volumes:
+   - ./cliente:/var/www/cliente
+   - ./src/site.conf:/etc/nginx/nginx.conf
+   - ./src/nginx/logs:/var/log/nginx/
+   links:
+    - mysqldb
+  php:
+   build:
+    context: ./src/php7
+   volumes:
+   - ./cliente:/var/www/cliente
+   links:
+    - mysqldb
+
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:5.7
+    volumes:
+      - ./src/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=cliente
+      - MYSQL_DATABASE=cliente
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=userpass
+    ports:
+      - "3366:3306"
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./src/redis:/data

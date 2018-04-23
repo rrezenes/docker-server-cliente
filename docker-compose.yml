@@ -12,9 +12,10 @@ services:
    - ./src/nginx/logs:/var/log/nginx/
    links:
     - mysqldb
+    
   php:
-   build:
-    context: ./src/php7
+   image: rrezenes/php
+   container_name: php7
    volumes:
    - ./cliente:/var/www/cliente
    links:

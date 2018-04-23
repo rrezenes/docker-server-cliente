@@ -15,7 +15,7 @@ services:
     
   php:
    image: rrezenes/php
-   container_name: php7
+   container_name: php_7
    volumes:
    - ./cliente:/var/www/cliente
    links:
